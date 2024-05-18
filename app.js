@@ -1,21 +1,21 @@
 const express = require('express');
 
+// importing configs
 const appconfig = require('./config/appConfigs');
+
+// importing controllers
 const Member = require('./controllers/membersController');
 const msgController = require('./controllers/msgController');
 
+// creating app
 const app = express();
 const expressWs = require('express-ws')(app);
 
+// start app
 const PORT = appconfig.port
-
 app.listen(PORT);
 
-app.get('/', function (req, res) {
-    console.log('get route', req.testing);
-    res.end();
-});
-
+// handle ws request
 app.ws('/', (ws, req) => {
     ws.on('message', function (msg) {
         msgController(ws, msg);
@@ -31,6 +31,8 @@ app.ws('/', (ws, req) => {
     }
 });
 
-/* app.get('/create_group', (req, res) => {
-    res.send(createHash('sha256').update(`${Date.now()}`).digest('base64').toString())
-}) */
+// get handler for emergency
+// app.get('/', function (req, res) {
+//     console.log('get route', req.testing);
+//     res.end();
+// });
